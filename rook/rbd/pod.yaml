@@ -1,0 +1,30 @@
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-nginx-pvc
+spec:
+  storageClassName: rook-ceph-block
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-nginx
+spec:
+  containers:
+    - name: web-server
+      image: nginx
+      volumeMounts:
+        - name: test-nginx-storage
+          mountPath: /var/lib/www/html
+  volumes:
+    - name: test-nginx-storage
+      persistentVolumeClaim:
+        claimName:  test-nginx-pvc
