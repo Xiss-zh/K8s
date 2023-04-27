@@ -413,8 +413,8 @@ spec:
         app.kubernetes.io/instance: ingress-nginx
         app.kubernetes.io/name: ingress-nginx
     spec:
-      hostNetwork: true    #设置为主机端口
-      tolerations:         #调度为master节点
+      hostNetwork: true    # 设置为主机端口
+      tolerations:         # 调度为master节点
       - effect: NoSchedule
         key: node-role.kubernetes.io/control-plane
       - args:
@@ -426,6 +426,7 @@ spec:
         - --validating-webhook=:8443
         - --validating-webhook-certificate=/usr/local/certificates/cert
         - --validating-webhook-key=/usr/local/certificates/key
+        - --report-node-internal-ip-address          # 该标志将所有Ingress对象的状态设置为运行NGINX Ingress控制器的所有节点的内部IP地址
         env:
         - name: POD_NAME
           valueFrom:
@@ -437,7 +438,7 @@ spec:
               fieldPath: metadata.namespace
         - name: LD_PRELOAD
           value: /usr/local/lib/libmimalloc.so
-        image: registry.cn-shenzhen.aliyuncs.com/xiss_images/controller:v1.6.4        #调整镜像地址
+        image: registry.cn-shenzhen.aliyuncs.com/xiss_images/controller:v1.6.4        # 调整镜像地址
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
