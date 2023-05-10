@@ -21,7 +21,7 @@
 
 ```shell
 # 克隆rook项目到本地
-git clone --single-branch --branch v1.11.3 https://github.com/rook/rook.git
+git clone --single-branch --branch v1.11.5 https://github.com/rook/rook.git
 
 ```
 
@@ -50,24 +50,37 @@ dashboard-external-https.yaml
 #### 2、下载相关镜像
 
 ```shell
-# 镜像下载：docker
-docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-attacher:v4.1.0
-docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-node-driver-registrar:v2.7.0
-docker pull pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-provisioner:v3.4.0
-docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-provisioner:v3.4.0
-docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-resizer:v1.7.0
-docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-snapshotter:v6.2.1
-docker pull  rook/ceph:v1.11.3
-docker pull quay.io/cephcsi/cephcsi:v3.8.0
-docker pull  quay.io/ceph/ceph:v17.2.5
+# docker：下载镜像并重新打标
+tee ./rook-images.sh <<'EOF'
+#!/bin/bash
+images=(
+	csi-attacher:v4.1.0
+	csi-node-driver-registrar:v2.7.0
+	csi-provisioner:v3.4.0
+	csi-resizer:v1.7.0
+	csi-snapshotter:v6.2.1
+)
 
-# 重新打标
-docker image tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-snapshotter:v6.2.1  registry.k8s.io/sig-storage/csi-snapshotter:v6.2.1
-docker image tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-node-driver-registrar:v2.7.0  registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.7.0
-docker image tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-resizer:v1.7.0  registry.k8s.io/sig-storage/csi-resizer:v1.7.0
-docker image tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-attacher:v4.1.0  registry.k8s.io/sig-storage/csi-attacher:v4.1.0
-docker image tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-provisioner:v3.4.0  registry.k8s.io/sig-storage/csi-provisioner:v3.4.0
+for imageName in ${images[@]} ; do
+	docker pull registry.aliyuncs.com/google_containers/$imageName
+	docker tag registry.aliyuncs.com/google_containers/$imageName registry.k8s.io/sig-storage/$imageName
+	docker rmi registry.aliyuncs.com/google_containers/$imageName
+done
+
+docker pull quay.io/ceph/ceph:v17.2.6
+docker pull quay.io/cephcsi/cephcsi:v3.8.0
+docker pull quay.io/csiaddons/k8s-sidecar:v0.5.0
+docker pull rook/ceph:v1.11.5
+
+EOF
+
+# 执行下载镜像
+chmod +x ./rook-images.sh && ./rook-images.sh
 ```
+
+
+
+
 
 ```shell
 # 镜像下载：containerd
@@ -76,7 +89,7 @@ crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-node-driver-
 crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-provisioner:v3.4.0
 crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-resizer:v1.7.0
 crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-snapshotter:v6.2.1
-crictl pull  rook/ceph:v1.11.3
+crictl pull rook/ceph:v1.11.3
 crictl pull quay.io/csiaddons/k8s-sidecar:v0.5.0
 crictl pull quay.io/cephcsi/cephcsi:v3.8.0
 crictl pull  quay.io/ceph/ceph:v17.2.5
