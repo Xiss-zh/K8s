@@ -11,9 +11,9 @@
 # 6、最少三个node节点
 ```
 
-![image-20230509103740815](D:\GitHub\K8s\png\image-20230509103740815.png)
+![image-20230509103740815](D:\Github\K8s\rook\png\image-20230509103740815.png)
 
-![image-20230509103954862](D:\GitHub\K8s\png\image-20230509103954862.png)
+![image-20230509103954862](D:\Github\K8s\rook\png\image-20230509103954862.png)
 
 ### 二、rook准备
 
@@ -25,7 +25,7 @@ git clone --single-branch --branch v1.11.5 https://github.com/rook/rook.git
 
 ```
 
-![image-20230509104339401](D:\GitHub\K8s\png\image-20230509104339401.png)
+![image-20230509104339401](D:\Github\K8s\rook\png\image-20230509104339401.png)
 
 ```shell
 # 拷贝基本集群配置文件到其它文件夹
@@ -67,7 +67,7 @@ for imageName in ${images[@]} ; do
 	docker rmi registry.aliyuncs.com/google_containers/$imageName
 done
 
-docker pull quay.io/ceph/ceph:v17.2.6
+docker pull quay.io/ceph/ceph:v16.2.11
 docker pull quay.io/cephcsi/cephcsi:v3.8.0
 docker pull quay.io/csiaddons/k8s-sidecar:v0.5.0
 docker pull rook/ceph:v1.11.5
@@ -80,30 +80,7 @@ chmod +x ./rook-images.sh && ./rook-images.sh
 
 
 
-
-
-```shell
-# 镜像下载：containerd
-crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-attacher:v4.1.0
-crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-node-driver-registrar:v2.7.0
-crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-provisioner:v3.4.0
-crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-resizer:v1.7.0
-crictl pull registry.cn-hangzhou.aliyuncs.com/google_containers/csi-snapshotter:v6.2.1
-crictl pull rook/ceph:v1.11.3
-crictl pull quay.io/csiaddons/k8s-sidecar:v0.5.0
-crictl pull quay.io/cephcsi/cephcsi:v3.8.0
-crictl pull  quay.io/ceph/ceph:v17.2.5
-
-
-# 重新打标
-ctr -n k8s.io i tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-attacher:v4.1.0 registry.k8s.io/sig-storage/csi-attacher:v4.1.0
-ctr -n k8s.io i tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-node-driver-registrar:v2.7.0  registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.7.0
-ctr -n k8s.io i tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-provisioner:v3.4.0 registry.k8s.io/sig-storage/csi-provisioner:v3.4.0
-ctr -n k8s.io i tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-resizer:v1.7.0 registry.k8s.io/sig-storage/csi-resizer:v1.7.0
-ctr -n k8s.io i tag registry.cn-hangzhou.aliyuncs.com/google_containers/csi-snapshotter:v6.2.1 registry.k8s.io/sig-storage/csi-snapshotter:v6.2.1
-```
-
-![image-20230509140513727](D:\GitHub\K8s\png\image-20230509140513727.png)
+![image-20230509140513727](D:\Github\K8s\rook\png\image-20230509140513727.png)
 
 ### 三、rook部署
 
@@ -136,11 +113,11 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 #
 ```
 
-![image-20230509152850615](D:\GitHub\K8s\png\image-20230509152850615.png)
+![image-20230509152850615](D:\Github\K8s\rook\png\image-20230509152850615.png)
 
-![image-20230509153340111](D:\GitHub\K8s\png\image-20230509153340111.png)
+![image-20230509153340111](D:\Github\K8s\rook\png\image-20230509153340111.png)
 
-![image-20230509154447867](D:\GitHub\K8s\png\image-20230509154447867.png)
+![image-20230509154447867](D:\Github\K8s\rook\png\image-20230509154447867.png)
 
 ### 四、创建storageclass
 
@@ -153,4 +130,4 @@ kubectl get sc
 kubectl exec -it -n rook-ceph rook-ceph-tools-54bdbfc7b7-pm95d -- bash -c "ceph osd pool ls"
 ```
 
-![image-20230509161211445](D:\GitHub\K8s\png\image-20230509161211445.png)
+![image-20230509161211445](D:\Github\K8s\rook\png\image-20230509161211445.png)
