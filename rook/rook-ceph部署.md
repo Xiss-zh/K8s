@@ -59,6 +59,7 @@ images=(
 	csi-provisioner:v3.4.0
 	csi-resizer:v1.7.0
 	csi-snapshotter:v6.2.1
+
 )
 
 for imageName in ${images[@]} ; do
@@ -67,7 +68,7 @@ for imageName in ${images[@]} ; do
 	docker rmi registry.aliyuncs.com/google_containers/$imageName
 done
 
-docker pull quay.io/ceph/ceph:v16.2.11
+docker pull quay.io/ceph/ceph:v17.2.6
 docker pull quay.io/cephcsi/cephcsi:v3.8.0
 docker pull quay.io/csiaddons/k8s-sidecar:v0.5.0
 docker pull rook/ceph:v1.11.5
@@ -131,3 +132,13 @@ kubectl exec -it -n rook-ceph rook-ceph-tools-54bdbfc7b7-pm95d -- bash -c "ceph 
 ```
 
 ![image-20230509161211445](D:\Github\K8s\rook\png\image-20230509161211445.png)
+
+
+
+```
+
+```
+
+![image-20230512165805183](C:\Users\zhangxing\AppData\Roaming\Typora\typora-user-images\image-20230512165805183.png)
+
+![image-20230515105530359](C:\Users\zhangxing\AppData\Roaming\Typora\typora-user-images\image-20230515105530359.png)

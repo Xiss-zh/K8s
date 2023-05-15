@@ -122,7 +122,7 @@ mkdir -p /etc/docker
 
 cat > /etc/docker/daemon.json << EOF
 {
-  "registry-mirrors": ["https://b9pmyelo.mirror.aliyuncs.com"],
+  "registry-mirrors": ["https://0lquduja.mirror.aliyuncs.com","https://0671b34fce000fb00f08c00e2fec0c60.mirror.swr.myhuaweicloud.com"],
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
