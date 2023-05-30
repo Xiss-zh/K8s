@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mes-db-slave-np3306
+  namespace: rs-prod
+  labels:
+    mysql: mes-slave
+spec:
+  ports:
+    - name: tcp-3306
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    mysql: mes-slave
+  type: NodePort

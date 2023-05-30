@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mes-db-slave-cnf
+  namespace: rs-prod
+data:
+  slave.cnf: |
+    [mysqld]
+    # 主从配置
+    server-id = 222
+    log-bin = slave-bin
+    binlog-format = ROW
+    expire_logs_days = 30
+    binlog-ignore-db = mysql,information_schema,performance_schema,sys
+    open_files_limit = 65535
+    max_connections = 300
+    max_connect_errors = 50
+    default_authentication_plugin = mysql_native_password

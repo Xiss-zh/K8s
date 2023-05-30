@@ -1,0 +1,89 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: mes-db-slave
+  namespace: rs-prod
+  labels:
+    mysql: mes-slave
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      mysql: mes-slave
+  template:
+    metadata:
+      labels:
+        mysql: mes-slave
+    spec:
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+            type: ''
+        - name: slave-cnf
+          configMap:
+            name: mes-db-slave-cnf
+            items:
+              - key: slave.cnf
+                path: slave.cnf
+            defaultMode: 420
+      containers:
+        - name: mes-db-slave
+          image: 'mysql:8.0.33'
+          ports:
+            - name: tcp-3306
+              containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mes-db-slave-secret
+                  key: MYSQL_ROOT_PASSWORD
+          resources:
+            limits:
+              cpu: '4'
+              memory: 4Gi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+            - name: pvc-data
+              mountPath: /var/lib/mysql
+            - name: slave-cnf
+              mountPath: /etc/mysql/conf.d/slave.cnf
+              subPath: slave.cnf
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc-data
+        namespace: rs-prod
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: rook-ceph-rbd
+  serviceName: mes-db-slave-cl3306
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mes-db-slave-cl3306
+  namespace: rs-prod
+  labels:
+    mysql: mes-slave
+spec:
+  ports:
+    - name: tcp-3306
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    mysql: mes-slave
+  clusterIP: None
+  type: ClusterIP
