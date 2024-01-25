@@ -1,0 +1,21 @@
+{
+  "MediaServerFirstToRestart": true,
+  "DbType": "MySql",
+  "OrmConnStr": "Data Source=127.0.0.1;Port=3306;User ID=root;Password=xxxxx; Initial Catalog=akstream;Charset=utf8; SslMode=none;Min pool size=1;",
+  "WebApiPort": 5800,
+  "AccessKey": "047I4WS1-U51UBO6W-1J4BT21P-MF17IT99-92J8WIHU-944Q4KIW",
+  "HttpClientTimeoutSec": 5,
+  "WaitEventTimeOutMSec" : 10000,
+  "WaitSipRequestTimeOutMSec" : 5000,
+  "DeletedRecordsExpiredDays" : 30,
+  "EnableGB28181Server": true,
+  "EnableGB28181Client": false,
+  "ZlmFlvPrefix" : "live",
+  "ListenIp": "127.0.0.1",
+  "ForwardUnmanagedRtmpRtspRtcStream": false,
+  "LocalizationKingBaseDb": false,
+  "ForwardUrlIn": "http://",
+  "ForwardUrlOut": "http://",
+  "ForwardUrlOnRecord": "http://",
+  "PushStreamIpGetUrl": ""
+}
