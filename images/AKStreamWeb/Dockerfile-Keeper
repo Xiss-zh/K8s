@@ -1,10 +1,10 @@
-#×÷Õß(author):×Ô¶¯³©(auto-chang)
-#Î¢ÐÅºÅ(WeChat):×Ô¶¯³©(auto-chang)
-#¹«ÖÚºÅ(WeChat official account)£º³©ÁÄÁË¸ö¿Æ¼¼(IT-chang)
-#Ê±¼ä(Time)£º2023Äê4ÔÂ22ÈÕ£¬ÐÇÆÚÁù(Saturday, April 22, 2023)
-#ÃèÊö(Describe£ºÎª°®·¢µç(Power Generation for Love)
+#ï¿½ï¿½ï¿½ï¿½(author):ï¿½Ô¶ï¿½ï¿½ï¿½(auto-chang)
+#Î¢ï¿½Åºï¿½(WeChat):ï¿½Ô¶ï¿½ï¿½ï¿½(auto-chang)
+#ï¿½ï¿½ï¿½Úºï¿½(WeChat official account)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¸ï¿½ï¿½Æ¼ï¿½(IT-chang)
+#Ê±ï¿½ï¿½(Time)ï¿½ï¿½2023ï¿½ï¿½4ï¿½ï¿½22ï¿½Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Saturday, April 22, 2023)
+#ï¿½ï¿½ï¿½ï¿½(Describeï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Power Generation for Love)
 
-FROM ubuntu-zlm-ffmpeg-dotnet AS keeper
+FROM registry.cn-shenzhen.aliyuncs.com/xiss_base/zlm AS keeper
 WORKDIR /root/src
 COPY . .
 RUN mkdir -p /root/AKStreamKeeper 
